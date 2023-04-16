@@ -10,7 +10,7 @@
                 :labelCol="{ span: 5 }"
                 :wrapperCol="{ span: 15 }"
                 label="产品名称"
-                fieldDecoratorId="desc"
+                fieldDecoratorId="name"
                 :fieldDecoratorOptions="{
                         rules: [{ required: true, message: 'Please input some description...' }],
                     }"
@@ -21,7 +21,7 @@
                 :labelCol="{ span: 5 }"
                 :wrapperCol="{ span: 15 }"
                 label="规格"
-                fieldDecoratorId="desc"
+                fieldDecoratorId="specification"
                 :fieldDecoratorOptions="{
                         rules: [{ required: true, message: 'Please input some description...' }],
                     }"
@@ -32,35 +32,53 @@
                 :labelCol="{ span: 5 }"
                 :wrapperCol="{ span: 15 }"
                 label="描述"
-                fieldDecoratorId="desc"
+                fieldDecoratorId="description"
                 :fieldDecoratorOptions="{
-                        rules: [{ required: true, message: 'Please input some description...' }],
+                        rules: [],
                     }"
             >
-                <a-textarea placeholder="请输入" :rows="3" />
+                <a-input type="textarea" placeholder="Basic usage"  />
             </a-form-item>
             <a-form-item
                 :labelCol="{ span: 5 }"
                 :wrapperCol="{ span: 15 }"
                 label="状态"
-                fieldDecoratorId="desc"
+                fieldDecoratorId="status"
                 :fieldDecoratorOptions="{
                         rules: [{ required: true, message: 'Please input some description...' }],
                     }"
             >
-                <a-input placeholder="请输入" />
+                <a-select placeholder="请选择" style="width: 100%;" >
+                    <a-select-option  value="P">生产中</a-select-option>
+                    <a-select-option value="N">已停产</a-select-option>
+                </a-select>
             </a-form-item>
         </a-form>
     </a-modal>
 </template>
 
 <script>
+import Vue from 'vue'
+import {  Modal } from 'ant-design-vue';
+Vue.use(Modal)
+
 export default {
     name: "ProductForm",
+    components: {
+        'a-modal': Modal,
+        // 'a-modal': Modal,
+    },
     props: {
-        visible: {
-            type: Boolean,
-            default: false
+        product: {
+            type: Object,
+            default: ()=>{
+                {
+                }
+            }
+        },
+        handleOk: {
+            type: Function,
+            default: (val) => {console.log("提交", val)}
         },
     },
     data(){
@@ -72,11 +90,15 @@ export default {
         showForm(){
             this.canVisit = true;
         },
+        hideForm(){
+            this.canVisit = false;
+        },
         okHandle() {
             this.createForm.validateFields((err, fieldsValue) => {
                 if (err) return;
                 this.createForm.resetFields();
-                this.handleAdd(fieldsValue);
+                this.handleOk(fieldsValue);
+                // this.handleAdd(fieldsValue);
             });
         },
         handleModalVisible(flag) {

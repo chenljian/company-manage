@@ -59,11 +59,20 @@
                     :onSelectRow="handleSelectRows"
                     :onChange="handleStandardTableChange"
                     :totalCount="data.size"
-                />
+                    rowKey="id"
+                >
+                    <span slot="action" slot-scope="text, record">
+                      <a>Invite 一 {{ record.name }}</a>
+                      <a-divider type="vertical" />
+                      <a>Delete</a>
+                      <a-divider type="vertical" />
+                      <a class="ant-dropdown-link"> More actions <a-icon type="down" /> </a>
+                    </span>
+                </commonTable>
             </div>
         </a-card>
-        <!-- <CreateForm {...parentMethods} modalVisible={modalVisible} /> -->
-        <ProductForm ref="productForm" :visible="modalVisible"></ProductForm>
+        <ProductForm ref="productForm" :visible="modalVisible" :handleOk="handleAdd"></ProductForm>
+        <ProductForm ref="editForm" :visible="editVisible" :handleOk="handleAdd"></ProductForm>
 
     </PageHeaderLayout>
 </template>
@@ -107,6 +116,7 @@ export default {
     };
     return {
       modalVisible: false,
+      editVisible: false,
       selectedRows: [],
       formValues: {},
       columns: [
@@ -155,25 +165,19 @@ export default {
         },
         {
           title: "操作",
-          customRender: () => (
-            <div>
-              <a-button type="link">详情</a-button>
-              <a-divider type="vertical" />
-              <a-button type="link">修改</a-button>
-              <a-divider type="vertical" />
-              <a-button type="link" style="color:red">删除</a-button>
-            </div>
-          )
+          scopedSlots: { customRender: 'action' }
         }
       ]
     };
   },
   methods: {
     handleModalVisible(flag) {
-      this.modalVisible = !!flag;
-      this.$refs.productForm.showForm();
+        if(flag) {
+            this.$refs.productForm.showForm();
+        }
     },
     handleSearch(e) {
+      console.log("查询", e);
       e.preventDefault();
       this.form.validateFields((err, fieldsValue) => {
         if (err) return;
@@ -183,9 +187,19 @@ export default {
           updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf()
         };
         this.formValues = values;
-        this.$store.dispatch("tableList/getList", { params: values });
+        this.queryList(values);
       });
     },
+    queryList(param){
+        this.$store.dispatch("tableList/getList", { params: param });
+    },
+
+    showEdit(val1, val2, val3){
+        console.log("修改",val1);
+        console.log("修改",val2);
+        console.log("修改",val3);
+    },
+
     handleFormReset() {
       this.form.resetFields();
       this.formValues = {};
@@ -238,12 +252,19 @@ export default {
     },
 
     handleAdd(fields) {
-      this.$store.dispatch("tableList/addList", {
-        params: { description: fields.desc }
+      console.log("收到", fields);
+      // this.$store.dispatch("tableList/addList", {
+      //   params: { description: fields.desc }
+      // });
+      this.$axios.post("/apic/product/add", fields).then((res)=>{
+          if(res && res.data.success){
+              message.success("添加成功");
+              this.queryList(this.formValues);
+              this.$refs.productForm.hideForm();
+          }
+      }).catch(function (error) {
+          console.log(error);
       });
-
-      message.success("添加成功");
-      this.modalVisible = false;
     }
   }
 };
