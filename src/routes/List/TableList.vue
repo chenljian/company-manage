@@ -3,76 +3,19 @@
         <a-card :bordered="false">
             <div class="tableList">
                 <div class="tableListForm">
-                    <a-form v-if="expandForm" @submit="handleSearch" layout="inline" :autoFormCreate="(form)=>{this.form = form}">
+                    <a-form @submit="handleSearch" layout="inline" :autoFormCreate="(form)=>{this.form = form}">
                         <a-row :gutter="{ md: 8, lg: 24, xl: 48 }">
                             <a-col :md="8" :sm="24">
-                                <a-form-item label="规则编号" fieldDecoratorId="no">
+                                <a-form-item label="产品名称" fieldDecoratorId="name">
                                     <a-input placeholder="请输入" />
                                 </a-form-item>
                             </a-col>
                             <a-col :md="8" :sm="24">
-                                <a-form-item label="使用状态" fieldDecoratorId="status">
+                                <a-form-item label="状态" fieldDecoratorId="status">
                                     <a-select placeholder="请选择" style="width: 100%;">
-                                        <a-select-option value="0">关闭</a-select-option>
-                                        <a-select-option value="1">运行中</a-select-option>
-                                    </a-select>
-                                </a-form-item>
-                            </a-col>
-                            <a-col :md="8" :sm="24">
-                                <a-form-item label="调用次数" fieldDecoratorId="number">
-                                    <InputNumber style="width: 100%;" />
-                                </a-form-item>
-                            </a-col>
-                            </a-row>
-                            <a-row :gutter="{ md: 8, lg: 24, xl: 48 }">
-                            <a-col :md="8" :sm="24">
-                                <a-form-item label="更新日期" fieldDecoratorId="date">
-                                    <DatePicker style="width: 100%;" placeholder="请输入更新日期" />
-                                </a-form-item>
-                            </a-col>
-                            <a-col :md="8" :sm="24">
-                                <a-form-item label="使用状态" fieldDecoratorId="status3">
-                                    <a-select placeholder="请选择" style="width: 100%;">
-                                        <a-select-option value="0">关闭</a-select-option>
-                                        <a-select-option value="1">运行中</a-select-option>
-                                    </a-select>
-                                </a-form-item>
-                            </a-col>
-                            <a-col :md="8" :sm="24">
-                                <a-form-item label="使用状态" fieldDecoratorId="status4">
-                                    <a-select placeholder="请选择" style="width: 100%;">
-                                        <a-select-option value="0">关闭</a-select-option>
-                                        <a-select-option value="1">运行中</a-select-option>
-                                    </a-select>
-                                </a-form-item>
-                            </a-col>
-                        </a-row>
-                        <div style="overflow: hidden;">
-                            <span style="float: right; margin-bottom: 24px;">
-                                <a-button type="primary" htmlType="submit">
-                                    查询
-                                </a-button>
-                                <a-button style="margin-left: 8px;" @click="handleFormReset">
-                                    重置
-                                </a-button>
-                                <a style="margin-left: 8px;" @click="toggleForm">
-                                    收起 <a-icon type="up" />
-                                </a>
-                            </span>
-                        </div>
-                    </a-form>
-                    <a-form v-else @submit="handleSearch" layout="inline" :autoFormCreate="(form)=>{this.form = form}">
-                        <a-row :gutter="{ md: 8, lg: 24, xl: 48 }">
-                            <a-col :md="8" :sm="24">
-                                <a-form-item label="规则编号" fieldDecoratorId="no">
-                                    <a-input placeholder="请输入" />
-                                </a-form-item>
-                            </a-col>
-                            <a-col :md="8" :sm="24">
-                                <a-form-item label="使用状态" fieldDecoratorId="status">
-                                    <a-select placeholder="请选择" style="width: 100%;">
-                                        <a-select-option value="0">关闭</a-select-option>
-                                        <a-select-option value="1">运行中</a-select-option>
+                                        <a-select-option value="">全部</a-select-option>
+                                        <a-select-option value="P">生产中</a-select-option>
+                                        <a-select-option value="N">已停产</a-select-option>
                                     </a-select>
                                 </a-form-item>
                             </a-col>
@@ -84,9 +27,6 @@
                                     <a-button style="margin-left: 8px;" @click="handleFormReset">
                                         重置
                                     </a-button>
-                                    <a style="margin-left: 8px;" @click="toggleForm">
-                                        展开 <a-icon type="down" />
-                                    </a>
                                 </span>
                             </a-col>
                         </a-row>
@@ -111,53 +51,35 @@
                         </a-dropdown>
                     </span>
                 </div>
-                <StandardTable
+                <commonTable
                     :selectedRows="selectedRows"
                     :loading="loading"
                     :list="data.list"
-                    :pagination="data.pagination"
                     :columns="columns"
                     :onSelectRow="handleSelectRows"
                     :onChange="handleStandardTableChange"
+                    :totalCount="data.size"
                 />
             </div>
         </a-card>
         <!-- <CreateForm {...parentMethods} modalVisible={modalVisible} /> -->
-        <a-modal
-            title="新建规则"
-            :visible="modalVisible"
-            @ok="okHandle"
-            @cancel="handleModalVisible"
-        >
-            <a-form :autoFormCreate="(form)=>{this.createForm = form}">
-                <a-form-item
-                    :labelCol="{ span: 5 }"
-                    :wrapperCol="{ span: 15 }"
-                    label="描述"
-                    fieldDecoratorId="desc"
-                    :fieldDecoratorOptions="{
-                        rules: [{ required: true, message: 'Please input some description...' }],
-                    }"
-                >
-                    <a-input placeholder="请输入" />
-                </a-form-item>
-            </a-form>
-        </a-modal>
+        <ProductForm ref="productForm" :visible="modalVisible"></ProductForm>
+
     </PageHeaderLayout>
 </template>
 
 <script>
 import PageHeaderLayout from "@/layouts/PageHeaderLayout";
-import StandardTable from "@/components/StandardTable";
+import commonTable from "@/components/commonTable";
+import ProductForm from "./ProductForm.vue";
 import moment from "moment";
-import { InputNumber, DatePicker, Badge, message } from "ant-design-vue";
+import { Badge, message } from "ant-design-vue";
 export default {
   name: "TableList",
   components: {
     PageHeaderLayout,
-    InputNumber,
-    DatePicker,
-    StandardTable
+    commonTable,
+    ProductForm
   },
   created() {
     this.$store.dispatch("tableList/getList", { params: {} });
@@ -174,51 +96,49 @@ export default {
     }
   },
   data() {
-    const statusMap = ["default", "processing", "success", "error"];
-    const status = ["关闭", "运行中", "已上线", "异常"];
+    const statusMap = {
+        "P":"success",
+        "N":"error",
+    };
+        // "default","processing", "success", "error"];
+    const status = {
+        "P":"生产中",
+        "N":"已停产"
+    };
     return {
       modalVisible: false,
-      expandForm: false,
       selectedRows: [],
       formValues: {},
       columns: [
         {
-          title: "规则编号",
-          dataIndex: "no"
+          title: "产品名称",
+          dataIndex: "name"
         },
         {
-          title: "描述",
-          dataIndex: "description"
+          title: "产品规格",
+          dataIndex: "specification"
         },
-        {
-          title: "服务调用次数",
-          dataIndex: "callNo",
-          sorter: true,
-          align: "right",
-          customRender: val => `${val} 万`,
-          // mark to display a total number
-          needTotal: true
-        },
+        // {
+        //   title: "服务调用次数",
+        //   dataIndex: "callNo",
+        //   sorter: true,
+        //   align: "right",
+        //   customRender: val => `${val} 万`,
+        //   // mark to display a total number
+        //   needTotal: true
+        // },
         {
           title: "状态",
           dataIndex: "status",
           filters: [
             {
-              text: status[0],
-              value: "0"
+              text: status["P"],
+              value: "P"
             },
             {
-              text: status[1],
-              value: "1"
+              text: status["N"],
+              value: "N"
             },
-            {
-              text: status[2],
-              value: "2"
-            },
-            {
-              text: status[3],
-              value: "3"
-            }
           ],
           onFilter: (value, record) => record.status.toString() === value,
           customRender: val => {
@@ -226,8 +146,8 @@ export default {
           }
         },
         {
-          title: "更新时间",
-          dataIndex: "updatedAt",
+          title: "创建时间",
+          dataIndex: "createTime",
           sorter: true,
           customRender: val => (
             <span>{moment(val).format("YYYY-MM-DD HH:mm:ss")}</span>
@@ -237,9 +157,11 @@ export default {
           title: "操作",
           customRender: () => (
             <div>
-              <a>配置</a>
+              <a-button type="link">详情</a-button>
               <a-divider type="vertical" />
-              <a>订阅警报</a>
+              <a-button type="link">修改</a-button>
+              <a-divider type="vertical" />
+              <a-button type="link" style="color:red">删除</a-button>
             </div>
           )
         }
@@ -249,13 +171,13 @@ export default {
   methods: {
     handleModalVisible(flag) {
       this.modalVisible = !!flag;
+      this.$refs.productForm.showForm();
     },
     handleSearch(e) {
       e.preventDefault();
-
       this.form.validateFields((err, fieldsValue) => {
         if (err) return;
-
+        console.log("查询参数", fieldsValue);
         const values = {
           ...fieldsValue,
           updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf()
@@ -269,13 +191,11 @@ export default {
       this.formValues = {};
       this.$store.dispatch("tableList/getList", { params: {} });
     },
-    toggleForm() {
-      this.expandForm = !this.expandForm;
-    },
     handleSelectRows(rows) {
       this.selectedRows = rows;
     },
     handleStandardTableChange(pagination, filtersArg, sorter) {
+      console.log("表格更新", pagination, filtersArg, sorter)
       const filters = Object.keys(filtersArg).reduce((obj, key) => {
         const newObj = { ...obj };
         newObj[key] = this.getValue(filtersArg[key]);
@@ -316,13 +236,7 @@ export default {
           break;
       }
     },
-    okHandle() {
-      this.createForm.validateFields((err, fieldsValue) => {
-        if (err) return;
-        this.createForm.resetFields();
-        this.handleAdd(fieldsValue);
-      });
-    },
+
     handleAdd(fields) {
       this.$store.dispatch("tableList/addList", {
         params: { description: fields.desc }

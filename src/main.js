@@ -15,6 +15,7 @@ import {
     Spin,
     AutoComplete,
     Input,
+    TextArea,
     Menu,
     Popover,
     Badge,
@@ -62,6 +63,7 @@ Vue.component(Avatar.name, Avatar);
 Vue.component(Spin.name, Spin);
 Vue.component(AutoComplete.name, AutoComplete);
 Vue.component(Input.name, Input);
+Vue.component(TextArea.name, TextArea);
 Vue.component(Menu.name, Menu);
 Vue.component(MenuItem.name, MenuItem);
 Vue.component(MenuDivider.name, MenuDivider);

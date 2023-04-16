@@ -33,7 +33,7 @@ export async function basicFormSubmit(params) {
 }
 
 export async function getTableList(params) {
-    return await request(`/api/table-list?${qs.stringify(params)}`, {});
+    return await request(`/apic/product/list?${qs.stringify(params)}`, {});
 }
 
 export async function addTableList(params) {

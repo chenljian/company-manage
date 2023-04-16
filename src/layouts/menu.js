@@ -43,12 +43,12 @@ const menuData = [
         ]
     },
     {
-        name: "列表页",
+        name: "产品",
         icon: "table",
         path: "list",
         children: [
             {
-                name: "查询表格",
+                name: "查询产品",
                 path: "table-list"
             },
             {
