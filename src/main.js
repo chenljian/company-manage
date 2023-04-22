@@ -7,6 +7,7 @@ import axios from 'axios'
 Vue.prototype.$axios = axios
 
 
+
 import "moment/locale/zh-cn";
 
 import {
@@ -34,10 +35,12 @@ import {
     Divider,
     Breadcrumb,
     Form,
+    FormModel,
     Select,
     Popconfirm,
-    Modal
+    Modal,
 } from "ant-design-vue";
+
 
 const { Content, Header, Footer, Sider } = Layout;
 const MenuItem = Menu.Item;
@@ -53,6 +56,9 @@ const CardGrid = Card.Grid;
 const CardMeta = Card.Meta;
 const BreadcrumbItem = Breadcrumb.Item;
 const FormItem = Form.Item;
+const FormModelItem = FormModel.Item;
+const TextArea = Input.TextArea;
+
 
 Vue.config.productionTip = false;
 
@@ -66,6 +72,7 @@ Vue.component(Avatar.name, Avatar);
 Vue.component(Spin.name, Spin);
 Vue.component(AutoComplete.name, AutoComplete);
 Vue.component(Input.name, Input);
+Vue.component(TextArea.name, TextArea);
 Vue.component(Menu.name, Menu);
 Vue.component(MenuItem.name, MenuItem);
 Vue.component(MenuDivider.name, MenuDivider);
@@ -95,6 +102,8 @@ Vue.component(Breadcrumb.name, Breadcrumb);
 Vue.component(BreadcrumbItem.name, BreadcrumbItem);
 Vue.component(Form.name, Form);
 Vue.component(FormItem.name, FormItem);
+Vue.component(FormModel.name, FormModel);
+Vue.component(FormModelItem.name, FormModelItem);
 Vue.component(Select.name, Select);
 Vue.component(Select.Option.name, Select.Option);
 Vue.component(Popconfirm.name, Popconfirm);
@@ -104,6 +113,7 @@ Vue.component(Content.name, Content);
 Vue.component(Header.name, Header);
 Vue.component(Footer.name, Footer);
 Vue.component(Sider.name, Sider);
+
 
 /* eslint-disable no-new */
 new Vue({

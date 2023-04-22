@@ -48,7 +48,7 @@ const menuData = [
         path: "list",
         children: [
             {
-                name: "查询产品",
+                name: "产品维护",
                 path: "table-list"
             },
             {
@@ -77,6 +77,21 @@ const menuData = [
                     }
                 ]
             }
+        ]
+    },
+    {
+        name: "订单",
+        icon: "profile",
+        path: "order",
+        children: [
+            {
+                name: "查询订单",
+                path: "order-list"
+            },
+            {
+                name: "新增订单",
+                path: "add-order"
+            },
         ]
     },
     {

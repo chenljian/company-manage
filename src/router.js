@@ -109,6 +109,14 @@ export default new Router({
                     ]
                 },
                 {
+                    path: "/order/order-list",
+                    component: () => import("@/routes/Profile/BasicProfile")
+                },
+                {
+                    path: "/order/add-order",
+                    component: () => import("@/routes/Order/AddOrderForm-vue")
+                },
+                {
                     path: "/profile/basic",
                     component: () => import("@/routes/Profile/BasicProfile")
                 },
