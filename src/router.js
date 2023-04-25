@@ -110,10 +110,34 @@ export default new Router({
                 },
                 {
                     path: "/order/order-list",
-                    component: () => import("@/routes/Profile/BasicProfile")
+                    component: () => import("@/routes/Order/OrderList")
                 },
                 {
                     path: "/order/add-order",
+                    component: () => import("@/routes/Order/AddOrderForm-vue")
+                },
+                {
+                    path: "/order/add-success",
+                    component: () => import("@/routes/Order/Success")
+                },
+                {
+                    path: "/order/detail",
+                    component: () => import("@/routes/Order/OrderDetail")
+                },
+                {
+                    path: "/order/review-order",
+                    component: () => import("@/routes/Order/AddOrderForm-vue")
+                },
+                {
+                    path: "/bound/bound-record",
+                    component: () => import("@/routes/Order/AddOrderForm-vue")
+                },
+                {
+                    path: "/bound/inbound",
+                    component: () => import("@/routes/Order/AddOrderForm-vue")
+                },
+                {
+                    path: "/bound/outbound",
                     component: () => import("@/routes/Order/AddOrderForm-vue")
                 },
                 {

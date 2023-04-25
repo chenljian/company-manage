@@ -1,34 +1,20 @@
 <template>
-    <PageHeaderLayout title="新增订单">
-        <template slot="content">
-            <span>填写新热佳生产单</span>
-        </template>
-        <a-card :bordered="false">
-            <a-form-model ref="ruleForm" :model="formInline" :label-col=" { span: 4 ,}" :wrapper-col="{ span: 6 }" :rules="rules">
-                <a-row>
-                    <a-col span="12">
-                <a-form-model-item label="下单时间" :label-col=" { span: 8 ,}" :wrapper-col="{ span: 12 }" prop="orderTime">
-                    <a-date-picker show-time v-model="formInline.orderTime"  />
-                </a-form-model-item>
-                    </a-col>
-                    <a-col span="12">
-                    <a-form-model-item label="交货时间" :label-col=" { span: 8 }" :wrapper-col="{ span: 12}" prop="deliverTime">
-                        <a-date-picker show-time v-model="formInline.deliverTime"  />
-                </a-form-model-item>
-                    </a-col>
-                </a-row>
-                <a-row>
-                    <a-col span="12">
-                <a-form-model-item label="客户" :label-col=" { span: 8 ,}" :wrapper-col="{ span: 12 }" prop="custom">
-                    <a-input v-model="formInline.custom" placeholder="客户名称" />
-                </a-form-model-item>
-                    </a-col>
-                    <a-col span="12">
-                <a-form-model-item label="参考" :label-col=" { span: 8 ,}" :wrapper-col="{ span: 12 }">
-                    <a-input v-model="formInline.consult" placeholder="参考人员" />
-                </a-form-model-item>
-                    </a-col>
-                </a-row>
+    <PageHeaderLayout title="生产单详情" >
+        <div >
+        <a-card :bordered="false" title="新热佳生产单" :headStyle="{ 'text-align': 'center',fontWeight: 'bold' }" class="print">
+            <a-row class="detail-row">
+                <a-col :span="4" class="term">下单时间</a-col>
+                <a-col :span="8">{{ formInline.orderTime }}</a-col>
+                <a-col :span="4" class="term">交货时间</a-col>
+                <a-col :span="8">{{ formInline.deliverTime }}</a-col>
+            </a-row>
+            <a-row class="detail-row">
+                <a-col :span="4" class="term">客户</a-col>
+                <a-col :span="8">{{ formInline.custom }}</a-col>
+                <a-col :span="4" class="term">参考</a-col>
+                <a-col :span="8">{{ formInline.consult }}</a-col>
+            </a-row>
+            <a-form-model :model="formInline" :label-col=" { span: 4 ,}" :wrapper-col="{ span: 6 }">
                 <a-row>
                     <a-col span="12">
                         <a-form-model-item label="规格" :label-col=" { span: 8 ,}" :wrapper-col="{ span: 12 }">
@@ -151,21 +137,23 @@
                     </a-col>
                 </a-row>
                 <a-form-model-item :wrapper-col="{ span: 14, offset: 8 }">
-                    <a-button type="primary" @click="handleSubmit">
-                        提交
+                    <a-button type="primary" class="button" @click="print">
+                        打印
                     </a-button>
-                    <a-button style="margin-left: 10px;">
-                        取消
+                    <a-button style="margin-left: 10px;" class="button" @click="back">
+                        返回
                     </a-button>
                 </a-form-model-item>
             </a-form-model>
         </a-card>
+
+        </div>
     </PageHeaderLayout>
 </template>
 
 <script>
 import PageHeaderLayout from "@/layouts/PageHeaderLayout";
-import {Input, message} from "ant-design-vue";
+import { Input } from "ant-design-vue";
 export default {
     components: {
         PageHeaderLayout,
@@ -175,55 +163,69 @@ export default {
     data() {
         return {
             formInline: {
-                orderTime: '',
-                deliverTime: '',
-                user: '',
-                password: '',
-            },
-            rules:{
-                orderTime:[
-                    { required: true, message: '下单时间必填', trigger: 'blur' }
-                ],
-                deliverTime:[
-                    { required: true, message: '交付时间必填', trigger: 'blur' }
-                ],
-                custom: [
-                    { required: true, message: '请填写客户名称', trigger: 'blur' },
-                    { min: 1, max: 100, message: '100个字符内', trigger: 'blur' },
-                ],
-                status:[
-                    { required: true, message: 'Please input some description...', trigger: 'blur'}
-                ]
+                orderTime: '2023-10-12 12:00:00',
+                deliverTime: '2023-10-12 12:00:00',
+                custom: '对方科技有限公司',
+                consult: '罗秋鑫',
             },
         };
     },
+    mounted() {
+        console.log("接收倒参数",this.$route.query);
+    },
     methods: {
-        handleSubmit() {
-            console.log("收到表单", this.formInline);
-            this.$refs.ruleForm.validate(valid => {
-                if (valid) {
-                    alert('submit!');
-                    this.$axios.post("/apic/order/add", fields).then((res) => {
-                        if (res && res.data.success) {
-                            message.success("添加成功");
-                            this.queryList(this.formValues);
-                            this.$router.push({path:'/order/add-success',query: {id:'123456'}});
-                        }
-                    }).catch(function (error) {
-                        console.log(error);
-                    });
-                } else {
-                    message.error("请检查栏位");
-                    return false;
-                }
-            });
-
-
+        print() {
+            const printContext = document.getElementsByClassName("print")[0]  //获取目标区域的HTML结构
+            document.body.innerHTML = printContext.innerHTML   //替换网页的html内容
+            window.print()   //打印
+            window.location.reload()  //刷新页面，因为网页的html被替换后很丑
         },
+        back(){
+            this.$router.go(-1);
+        }
     },
 };
 </script>
 
 <style lang="less" scoped>
 @import "./style.less";
+.ant-form-item {
+    line-height: 1;
+    margin-bottom:10px;
+}
+.detail-row{
+    line-height: 1.5;
+    margin-bottom:10px;
+    font-size: 15px;
+}
+.term {
+    // Line-height is 22px IE dom height will calculate error
+    text-align: right;
+    font-weight: bold;
+
+    &:after {
+        content: ":";
+        margin: 0 8px 0 2px;
+        position: relative;
+        top: -0.5px;
+    }
+}
+
+.detail {
+    line-height: 22px;
+    width: 100%;
+    padding-bottom: 16px;
+    color: @text-color;
+    display: table-cell;
+}
+@media print {
+    .ant-form-item {
+        line-height: 1;
+        margin-bottom:0px;
+    }
+    .button{
+        display: none;
+    }
+
+}
 </style>
