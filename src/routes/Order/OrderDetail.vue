@@ -4,9 +4,9 @@
         <a-card :bordered="false" title="新热佳生产单" :headStyle="{ 'text-align': 'center',fontWeight: 'bold' }" class="print">
             <a-row class="detail-row">
                 <a-col :span="4" class="term">下单时间</a-col>
-                <a-col :span="8">{{ formInline.orderTime }}</a-col>
+                <a-col :span="8">{{ moment(formInline.orderTime).format('YYYY-MM-DD HH:mm')}}</a-col>
                 <a-col :span="4" class="term">交货时间</a-col>
-                <a-col :span="8">{{ formInline.deliverTime }}</a-col>
+                <a-col :span="8">{{ moment(formInline.deliverTime).format('YYYY-MM-DD HH:mm')}}</a-col>
             </a-row>
             <a-row class="detail-row">
                 <a-col :span="4" class="term">客户</a-col>
@@ -40,10 +40,10 @@
                     </a-col>
                 </a-row>
                 <a-form-model-item label="图示" :label-col=" { span: 4 ,}" :wrapper-col="{ span: 16 }">
-                    <a-input v-model="formInline.amount" type="textarea" placeholder="图示" />
+                    <a-input v-model="formInline.illustration" type="textarea" placeholder="图示" />
                 </a-form-model-item>
                 <a-form-model-item label="备注" :label-col=" { span: 4 ,}" :wrapper-col="{ span: 16 }">
-                    <a-input v-model="formInline.amount" type="textarea" placeholder="备注" />
+                    <a-input v-model="formInline.remark" type="textarea" placeholder="备注" />
                 </a-form-model-item>
                 <a-row>
                     <a-col span="12">
@@ -153,7 +153,9 @@
 
 <script>
 import PageHeaderLayout from "@/layouts/PageHeaderLayout";
-import { Input } from "ant-design-vue";
+import {Input, message} from "ant-design-vue";
+import moment from "moment";
+
 export default {
     components: {
         PageHeaderLayout,
@@ -162,6 +164,7 @@ export default {
   name: "AddOrderForm",
     data() {
         return {
+            moment,
             formInline: {
                 orderTime: '2023-10-12 12:00:00',
                 deliverTime: '2023-10-12 12:00:00',
@@ -172,6 +175,16 @@ export default {
     },
     mounted() {
         console.log("接收倒参数",this.$route.query);
+        this.$axios.get(`/apic/order/query/${this.$route.query.id}`).then((res) => {
+            this.loading = false;
+            if (res && res.data.success) {
+                this.formInline = res.data.object;
+            }else if(res && !res.data.success){
+                message.error(res.data.message);
+            }
+        }).catch(function (error) {
+            console.log(error);
+        });
     },
     methods: {
         print() {

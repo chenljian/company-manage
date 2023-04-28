@@ -30,7 +30,7 @@ export default {
   },
   methods:{
     seeThisOrder(){
-        this.$router.push({path:'/order/detail',query: {id:'123456'}});
+        this.$router.push({path:'/order/detail',query: {id:this.$route.query.id}});
     },
     addOrder(){
         this.$router.push('/order/add-order');

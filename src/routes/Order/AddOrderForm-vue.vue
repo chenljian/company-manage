@@ -54,10 +54,10 @@
                     </a-col>
                 </a-row>
                 <a-form-model-item label="图示" :label-col=" { span: 4 ,}" :wrapper-col="{ span: 16 }">
-                    <a-input v-model="formInline.amount" type="textarea" placeholder="图示" />
+                    <a-input v-model="formInline.illustration" type="textarea" placeholder="图示" />
                 </a-form-model-item>
                 <a-form-model-item label="备注" :label-col=" { span: 4 ,}" :wrapper-col="{ span: 16 }">
-                    <a-input v-model="formInline.amount" type="textarea" placeholder="备注" />
+                    <a-input v-model="formInline.remark" type="textarea" placeholder="备注" />
                 </a-form-model-item>
                 <a-row>
                     <a-col span="12">
@@ -182,10 +182,10 @@ export default {
             },
             rules:{
                 orderTime:[
-                    { required: true, message: '下单时间必填', trigger: 'blur' }
+                    { required: true, message: '下单时间必填', trigger: 'change' }
                 ],
                 deliverTime:[
-                    { required: true, message: '交付时间必填', trigger: 'blur' }
+                    { required: true, message: '交付时间必填', trigger: 'change' }
                 ],
                 custom: [
                     { required: true, message: '请填写客户名称', trigger: 'blur' },
@@ -202,12 +202,12 @@ export default {
             console.log("收到表单", this.formInline);
             this.$refs.ruleForm.validate(valid => {
                 if (valid) {
-                    alert('submit!');
-                    this.$axios.post("/apic/order/add", fields).then((res) => {
+                    this.$axios.post("/apic/order/add", this.formInline).then((res) => {
                         if (res && res.data.success) {
                             message.success("添加成功");
-                            this.queryList(this.formValues);
-                            this.$router.push({path:'/order/add-success',query: {id:'123456'}});
+                            this.$router.push({path:'/order/add-success',query: {id: res.data.id}});
+                        }else if(res && !res.data.success){
+                            message.error(res.message);
                         }
                     }).catch(function (error) {
                         console.log(error);
