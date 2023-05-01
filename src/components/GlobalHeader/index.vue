@@ -6,33 +6,33 @@
             @click="toggle"
         />
         <div class="right">
-          <HeaderSearch
-            class='action search'
-            placeholder="站内搜索"
-            :dataSource="['搜索提示一', '搜索提示二', '搜索提示三']"
-            :onSearch="(value) => onSearch(value)"
-            :onPressEnter="(value) => onPressEnter(value)"
-          />
-          <a-tooltip title="使用文档">
-            <a
-              target="_blank"
-              href="http://pro.ant.design/docs/getting-started"
-              rel="noopener noreferrer"
-              class="action"
-            >
-              <a-icon type="question-circle-o" />
-            </a>
-          </a-tooltip>
-            <NoticeIcon
-                className="action"
-                :count="currentUser.notifyCount"
-                :onItemClick="(item, tabProps) => onItemClick(item, tabProps)"
-                :onClear="onNoticeClear"
-                :onPopupVisibleChange="onNoticeVisibleChange"
-                :loading="fetchingNotices"
-                :popupAlign="{ offset: [20, -16] }"
-                :notices="notices"
-            />
+<!--          <HeaderSearch-->
+<!--            class='action search'-->
+<!--            placeholder="站内搜索"-->
+<!--            :dataSource="['搜索提示一', '搜索提示二', '搜索提示三']"-->
+<!--            :onSearch="(value) => onSearch(value)"-->
+<!--            :onPressEnter="(value) => onPressEnter(value)"-->
+<!--          />-->
+<!--          <a-tooltip title="使用文档">-->
+<!--            <a-->
+<!--              target="_blank"-->
+<!--              href="http://pro.ant.design/docs/getting-started"-->
+<!--              rel="noopener noreferrer"-->
+<!--              class="action"-->
+<!--            >-->
+<!--              <a-icon type="question-circle-o" />-->
+<!--            </a>-->
+<!--          </a-tooltip>-->
+<!--            <NoticeIcon-->
+<!--                className="action"-->
+<!--                :count="currentUser.notifyCount"-->
+<!--                :onItemClick="(item, tabProps) => onItemClick(item, tabProps)"-->
+<!--                :onClear="onNoticeClear"-->
+<!--                :onPopupVisibleChange="onNoticeVisibleChange"-->
+<!--                :loading="fetchingNotices"-->
+<!--                :popupAlign="{ offset: [20, -16] }"-->
+<!--                :notices="notices"-->
+<!--            />-->
 
             <a-dropdown v-if="currentUser.name">
                 <a-menu slot="overlay" class="menu" @click="onMenuClick">
@@ -42,16 +42,16 @@
                     <a-menu-item disabled>
                         <a-icon type="setting" />设置
                     </a-menu-item>
-                    <a-menu-item key="triggerError">
-                        <a-icon type="close-circle" />触发报错
-                    </a-menu-item>
+<!--                    <a-menu-item key="triggerError">-->
+<!--                        <a-icon type="close-circle" />触发报错-->
+<!--                    </a-menu-item>-->
                     <a-menu-divider />
                     <a-menu-item key="logout">
                         <a-icon type="logout" />退出登录
                     </a-menu-item>
                 </a-menu>
                 <span class='action account'>
-                    <a-avatar size="small" class="avatar" :src="currentUser.avatar" />
+                    <a-avatar size="small" class="avatar" icon="user" />
                     <span class="name">{{ currentUser.name }}</span>
                 </span>
             </a-dropdown>
@@ -96,7 +96,10 @@ export default {
       default: () => {}
     }
   },
-  data() {
+    mounted() {
+      console.log("currentUser", this.currentUser.name);
+    },
+    data() {
     return {};
   },
   methods: {

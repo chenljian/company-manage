@@ -3,6 +3,8 @@ import App from "./App";
 import router from "./router";
 import store from "./store";
 import axios from 'axios'
+import { message} from "ant-design-vue";
+
 
 Vue.prototype.$axios = axios
 
@@ -122,3 +124,30 @@ new Vue({
     store,
     render: h => h(App)
 });
+
+router.beforeEach((to, from, next) => {
+    // 获取用户登录成功后存储的登录标志
+    const isLogin = sessionStorage.getItem("isLogin");
+    // 如果登录标志存在且为isLogin,即用户已登录
+    if (isLogin === 'true') {
+        // // 设置vuex登录状态为已登录
+        // store.state.isLogin = true;
+        next()
+        // 如果已登录，进行登录注册页面，则定向会首页
+        if (to.meta.needLogin == false) {
+            message.error('请先退出登录')
+            next({ path: '/' })
+        }
+        // 如果登录标志不存在，即未登录
+    } else {
+        // 用户想进入需要登录的页面，则定向回登录页面
+        if (to.meta.needLogin) {
+            next({ path: '/user/login' })
+            message.info('请先登录')
+            // 用户进入无需登录的界面，则跳转继续
+        } else {
+            next()
+        }
+    }
+})
+

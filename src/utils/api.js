@@ -13,6 +13,13 @@ export async function getUserCurrent() {
     return await request('/api/userCurrent', {});
 }
 
+export async function getLoginUser(params) {
+    return await request('/apic/user/login', {
+        method: 'POST',
+        body: params,
+    });
+}
+
 export async function getTags() {
     return await request('/api/tags', {});
 }

@@ -121,7 +121,7 @@
                     <a-col span="12">
                         <a-form-model-item label="镁底" :label-col=" { span: 8 ,}" :wrapper-col="{ span: 12 }">
                             <a-input v-model="formInline.magnesiumBaseA" placeholder="镁底" />
-                            <a-input v-model="formInline.magnesiumBaseA" placeholder="镁底" />
+                            <a-input v-model="formInline.magnesiumBaseB" placeholder="镁底" />
                         </a-form-model-item>
                     </a-col>
                 </a-row>
@@ -207,7 +207,7 @@ export default {
                             message.success("添加成功");
                             this.$router.push({path:'/order/add-success',query: {id: res.data.id}});
                         }else if(res && !res.data.success){
-                            message.error(res.message);
+                            message.error(res.data.message);
                         }
                     }).catch(function (error) {
                         console.log(error);

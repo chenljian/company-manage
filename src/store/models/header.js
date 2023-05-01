@@ -39,7 +39,8 @@ const header = {
                 commit('TOGGLE_FETCH_NOTICE');
             }, 500)
         },
-        getUserCurrentData({ commit }) {
+        getUserCurrentData({ commit },{params}) {
+            console.log("登录用户",params);
             getUserCurrent().then((res)=>{
                 if (res) {
                     commit('SET_USER_CURRENT', res);

@@ -14,128 +14,76 @@
                 <a-col :span="4" class="term">参考</a-col>
                 <a-col :span="8">{{ formInline.consult }}</a-col>
             </a-row>
+            <a-row class="detail-row">
+                <a-col :span="4" class="term">规格</a-col>
+                <a-col :span="8">{{ formInline.specification }}</a-col>
+                <a-col :span="4" class="term">电压</a-col>
+                <a-col :span="8">{{ formInline.voltage }}</a-col>
+            </a-row>
+            <a-row class="detail-row">
+                <a-col :span="4" class="term">功率</a-col>
+                <a-col :span="8">{{ formInline.power }}</a-col>
+                <a-col :span="4" class="term">数量</a-col>
+                <a-col :span="8">{{ formInline.amount }}</a-col>
+            </a-row>
+            <a-row class="detail-row">
+                <a-col :span="4" class="term">图示</a-col>
+                <a-col :span="20">{{ formInline.illustration }}</a-col>
+            </a-row>
+            <a-row class="detail-row">
+                <a-col :span="4" class="term">备注</a-col>
+                <a-col :span="20">{{ formInline.remark }}</a-col>
+            </a-row>
+            <a-row class="detail-row">
+                <a-col :span="4" class="term">压缩电阻</a-col>
+                <a-col :span="8">{{ formInline.comResistance }}</a-col>
+                <a-col :span="4" class="term">成品电阻</a-col>
+                <a-col :span="8">{{ formInline.finResistance }}</a-col>
+            </a-row>
+            <a-row class="detail-row">
+                <a-col :span="4" class="term">空管材质</a-col>
+                <a-col :span="8">{{ formInline.material }}</a-col>
+                <a-col :span="4" class="term">填充物</a-col>
+                <a-col :span="8">{{ formInline.filler }}</a-col>
+            </a-row>
+            <a-row class="detail-row">
+                <a-col :span="4" class="term">空管</a-col>
+                <a-col :span="4">{{ formInline.pipeA }}</a-col>
+                <a-col :span="4">{{ formInline.pipeB }}</a-col>
+                <a-col :span="4" class="term">镁棒</a-col>
+                <a-col :span="4">{{ formInline.magnesiumRodA }}</a-col>
+                <a-col :span="4">{{ formInline.magnesiumRodA }}</a-col>
+            </a-row>
+            <a-row class="detail-row">
+                <a-col :span="4" class="term">镍铬</a-col>
+                <a-col :span="4">{{ formInline.nickelChromiumA }}</a-col>
+                <a-col :span="4">{{ formInline.nickelChromiumB }}</a-col>
+                <a-col :span="4" class="term">引棒</a-col>
+                <a-col :span="4">{{ formInline.guideRodA }}</a-col>
+                <a-col :span="4">{{ formInline.guideRodB }}</a-col>
+            </a-row>
+            <a-row class="detail-row">
+                <a-col :span="4" class="term">镁头</a-col>
+                <a-col :span="4">{{ formInline.magnesiumHeadA }}</a-col>
+                <a-col :span="4">{{ formInline.magnesiumHeadB }}</a-col>
+                <a-col :span="4" class="term">镁底</a-col>
+                <a-col :span="4">{{ formInline.magnesiumBaseA }}</a-col>
+                <a-col :span="4">{{ formInline.magnesiumBaseB }}</a-col>
+            </a-row>
+            <a-row class="detail-row">
+                <a-col :span="4" class="term">出线</a-col>
+                <a-col :span="4">{{ formInline.outLineA }}</a-col>
+                <a-col :span="4">{{ formInline.outLineB }}</a-col>
+                <a-col :span="4" class="term">技术课</a-col>
+                <a-col :span="8">{{ formInline.techClass }}</a-col>
+            </a-row>
+            <a-row class="detail-row">
+                <a-col :span="4" class="term">生产课</a-col>
+                <a-col :span="8">{{ formInline.prodClass }}</a-col>
+                <a-col :span="4" class="term">QC/仓管</a-col>
+                <a-col :span="8">{{ formInline.warehouse }}</a-col>
+            </a-row>
             <a-form-model :model="formInline" :label-col=" { span: 4 ,}" :wrapper-col="{ span: 6 }">
-                <a-row>
-                    <a-col span="12">
-                        <a-form-model-item label="规格" :label-col=" { span: 8 ,}" :wrapper-col="{ span: 12 }">
-                            <a-input v-model="formInline.specification" placeholder="规格" />
-                        </a-form-model-item>
-                    </a-col>
-                    <a-col span="12">
-                        <a-form-model-item label="电压" :label-col=" { span: 8 ,}" :wrapper-col="{ span: 12 }">
-                            <a-input v-model="formInline.voltage"  placeholder="电压" />
-                        </a-form-model-item>
-                    </a-col>
-                </a-row>
-                <a-row>
-                    <a-col span="12">
-                        <a-form-model-item label="功率" :label-col=" { span: 8 ,}" :wrapper-col="{ span: 12 }">
-                            <a-input v-model="formInline.power" placeholder="Username" />
-                        </a-form-model-item>
-                    </a-col>
-                    <a-col span="12">
-                        <a-form-model-item label="数量" :label-col=" { span: 8 ,}" :wrapper-col="{ span: 12 }">
-                            <a-input v-model="formInline.amount" placeholder="填写数量" />
-                        </a-form-model-item>
-                    </a-col>
-                </a-row>
-                <a-form-model-item label="图示" :label-col=" { span: 4 ,}" :wrapper-col="{ span: 16 }">
-                    <a-input v-model="formInline.illustration" type="textarea" placeholder="图示" />
-                </a-form-model-item>
-                <a-form-model-item label="备注" :label-col=" { span: 4 ,}" :wrapper-col="{ span: 16 }">
-                    <a-input v-model="formInline.remark" type="textarea" placeholder="备注" />
-                </a-form-model-item>
-                <a-row>
-                    <a-col span="12">
-                        <a-form-model-item label="压缩电阻" :label-col=" { span: 8 ,}" :wrapper-col="{ span: 12 }">
-                            <a-input v-model="formInline.comResistance" placeholder="压缩电阻" />
-                        </a-form-model-item>
-                    </a-col>
-                    <a-col span="12">
-                        <a-form-model-item label="成品电阻" :label-col=" { span: 8 ,}" :wrapper-col="{ span: 12 }">
-                            <a-input v-model="formInline.finResistance" type="password" placeholder="Password" />
-                        </a-form-model-item>
-                    </a-col>
-                </a-row>
-                <a-row>
-                    <a-col span="12">
-                        <a-form-model-item label="空管材质" :label-col=" { span: 8 ,}" :wrapper-col="{ span: 12 }">
-                            <a-input v-model="formInline.material" placeholder="Username" />
-                        </a-form-model-item>
-                    </a-col>
-                    <a-col span="12">
-                        <a-form-model-item label="填充物" :label-col=" { span: 8 ,}" :wrapper-col="{ span: 12 }">
-                            <a-input v-model="formInline.filler" type="password" placeholder="Password" />
-                        </a-form-model-item>
-                    </a-col>
-                </a-row>
-                <a-row>
-                    <a-col span="12">
-                        <a-form-model-item label="空管" :label-col=" { span: 8 ,}" :wrapper-col="{ span: 12 }">
-                            <a-input v-model="formInline.pipeA" placeholder="空管规格" />
-                            <a-input v-model="formInline.pipeB" placeholder="空管长度" />
-                        </a-form-model-item>
-                    </a-col>
-                    <a-col span="12">
-                        <a-form-model-item label="镁棒" :label-col=" { span: 8 ,}" :wrapper-col="{ span: 12 }">
-                            <a-input v-model="formInline.magnesiumRodA" placeholder="镁棒长" />
-                            <a-input v-model="formInline.magnesiumRodA" placeholder="镁棒宽" />
-                        </a-form-model-item>
-                    </a-col>
-                </a-row>
-                <a-row>
-                    <a-col span="12">
-                        <a-form-model-item label="镍铬" :label-col=" { span: 8 ,}" :wrapper-col="{ span: 12 }">
-                            <a-input v-model="formInline.nickelChromiumA" placeholder="镍铬A" />
-                            <a-input v-model="formInline.nickelChromiumB" placeholder="镍铬B" />
-                        </a-form-model-item>
-                    </a-col>
-                    <a-col span="12">
-                        <a-form-model-item label="引棒" :label-col=" { span: 8 ,}" :wrapper-col="{ span: 12 }">
-                            <a-input v-model="formInline.guideRodA" placeholder="引棒类型" />
-                            <a-input v-model="formInline.guideRodB" placeholder="引棒长度" />
-                        </a-form-model-item>
-                    </a-col>
-                </a-row>
-                <a-row>
-                    <a-col span="12">
-                        <a-form-model-item label="镁头" :label-col=" { span: 8 ,}" :wrapper-col="{ span: 12 }">
-                            <a-input v-model="formInline.magnesiumHeadA" placeholder="镁头" />
-                            <a-input v-model="formInline.magnesiumHeadB" placeholder="镁头" />
-                        </a-form-model-item>
-                    </a-col>
-                    <a-col span="12">
-                        <a-form-model-item label="镁底" :label-col=" { span: 8 ,}" :wrapper-col="{ span: 12 }">
-                            <a-input v-model="formInline.magnesiumBaseA" placeholder="镁底" />
-                            <a-input v-model="formInline.magnesiumBaseA" placeholder="镁底" />
-                        </a-form-model-item>
-                    </a-col>
-                </a-row>
-                <a-row>
-                    <a-col span="12">
-                        <a-form-model-item label="出线" :label-col=" { span: 8 ,}" :wrapper-col="{ span: 12 }">
-                            <a-input v-model="formInline.outLineA" placeholder="出线类型" />
-                            <a-input v-model="formInline.outLineB" placeholder="出线长度" />
-                        </a-form-model-item>
-                    </a-col>
-                    <a-col span="12">
-                        <a-form-model-item label="技术课" :label-col=" { span: 8 ,}" :wrapper-col="{ span: 12 }">
-                            <a-input v-model="formInline.techClass" placeholder="技术课" />
-                        </a-form-model-item>
-                    </a-col>
-                </a-row>
-                <a-row>
-                    <a-col span="12">
-                        <a-form-model-item label="生产课" :label-col=" { span: 8 ,}" :wrapper-col="{ span: 12 }">
-                            <a-input v-model="formInline.prodClass" placeholder="生产课人员" />
-                        </a-form-model-item>
-                    </a-col>
-                    <a-col span="12">
-                        <a-form-model-item label="QC/仓管" :label-col=" { span: 8 ,}" :wrapper-col="{ span: 12 }">
-                            <a-input v-model="formInline.warehouse" placeholder="QC/仓管" />
-                        </a-form-model-item>
-                    </a-col>
-                </a-row>
                 <a-form-model-item :wrapper-col="{ span: 14, offset: 8 }">
                     <a-button type="primary" class="button" @click="print">
                         打印
@@ -207,7 +155,7 @@ export default {
     margin-bottom:10px;
 }
 .detail-row{
-    line-height: 1.5;
+    line-height: 2;
     margin-bottom:10px;
     font-size: 15px;
 }
@@ -238,6 +186,11 @@ export default {
     }
     .button{
         display: none;
+    }
+    .detail-row{
+        line-height: 2;
+        margin-bottom:10px;
+        font-size: 20px;
     }
 
 }

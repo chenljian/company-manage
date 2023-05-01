@@ -12,7 +12,10 @@ export default new Router({
             children: [
                 {
                     path: "/user/login",
-                    component: () => import("@/routes/User/Login")
+                    component: () => import("@/routes/User/Login"),
+                    meta: {
+                        needLogin: false
+                    }
                 },
                 {
                     path: "/user/register",
@@ -27,8 +30,12 @@ export default new Router({
         {
             path: "/",
             component: BasicLayout,
-            redirect: "/dashboard/analysis",
+            redirect: "/dashboard/run-data",
             children: [
+                {
+                    path: "/dashboard/run-data",
+                    component: () => import("@/routes/Dashboard/RunData")
+                },
                 {
                     path: "/dashboard/analysis",
                     component: () => import("@/routes/Dashboard/Analysis")
@@ -76,7 +83,10 @@ export default new Router({
                 },
                 {
                     path: "/list/table-list",
-                    component: () => import("@/routes/List/TableList")
+                    component: () => import("@/routes/List/TableList"),
+                    meta: {
+                        needLogin: true
+                    }
                 },
                 {
                     path: "/list/basic-list",
@@ -110,7 +120,10 @@ export default new Router({
                 },
                 {
                     path: "/order/order-list",
-                    component: () => import("@/routes/Order/OrderList")
+                    component: () => import("@/routes/Order/OrderList"),
+                    meta: {
+                        needLogin: true
+                    }
                 },
                 {
                     path: "/order/add-order",
@@ -126,19 +139,36 @@ export default new Router({
                 },
                 {
                     path: "/order/review-order",
-                    component: () => import("@/routes/Order/AddOrderForm-vue")
+                    component: () => import("@/routes/Order/ReviewList")
                 },
                 {
                     path: "/bound/bound-record",
-                    component: () => import("@/routes/Order/AddOrderForm-vue")
+                    component: () => import("@/routes/Bound/BoundList")
                 },
                 {
                     path: "/bound/inbound",
-                    component: () => import("@/routes/Order/AddOrderForm-vue")
+                    component: () => import("@/routes/Bound/InBound")
+                },
+                {
+                    path: "/inbound/success",
+                    component: () => import("@/routes/Bound/Success")
+                },
+                {
+                    path: "/outbound/success",
+                    component: () => import("@/routes/Bound/OutboundSuccess")
                 },
                 {
                     path: "/bound/outbound",
-                    component: () => import("@/routes/Order/AddOrderForm-vue")
+                    component: () => import("@/routes/Bound/OutBound")
+                },
+
+                {
+                    path: "/bound/add-outbound",
+                    component: () => import("@/routes/Bound/AddOutBound")
+                },
+                {
+                    path: "/bound/out-detail",
+                    component: () => import("@/routes/Bound/OutDetail")
                 },
                 {
                     path: "/profile/basic",

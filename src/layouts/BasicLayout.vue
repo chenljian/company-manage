@@ -11,7 +11,7 @@
             <a-layout>
                 <a-layout-header style="padding: 0">
                     <GlobalHeader
-                        :currentUser="currentUser"
+                        :currentUser="logUser"
                         :fetchingNotices="fetchingNotices"
                         :notices="notices"
                         :collapsed="collapsed"
@@ -49,13 +49,17 @@ export default {
   },
   created() {
     this.MenuData = getMenuData();
-    this.$store.dispatch("header/getHeaderNotice");
-    this.$store.dispatch("header/getUserCurrentData");
+    // this.$store.dispatch("header/getHeaderNotice");
+    // this.$store.dispatch("header/getUserCurrentData",{params:this.loginUser});
+    this.logUser={
+        name: sessionStorage.getItem('userName'),
+        companyName: sessionStorage.getItem('companyName'),
+    }
   },
   computed: {
-    currentUser() {
-      return this.$store.state.header.userCurrent;
-    },
+    // currentUser() {
+    //   return this.$store.state.header.userCurrent;
+    // },
     notices() {
       return this.$store.state.header.notices;
     },
@@ -67,6 +71,7 @@ export default {
     return {
       MenuData: [],
       logo: logo,
+        logUser:{},
       collapsed: false,
       links: [
         {
@@ -106,6 +111,7 @@ export default {
         return;
       }
       if (key === "logout") {
+          sessionStorage.setItem('isLogin', 'false');
         this.$router.push("/user/login");
       }
     },

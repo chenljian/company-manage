@@ -1,31 +1,19 @@
 <template>
-    <PageHeaderLayout title="查询表格">
+    <PageHeaderLayout title="出货记录">
         <a-card :bordered="false">
             <div class="tableList">
                 <div class="tableListForm">
                     <a-form @submit="handleSearch" layout="inline" :autoFormCreate="(form)=>{this.form = form}">
-                        <a-row :gutter="{ md: 8, lg: 24, xl: 48 }">
-                            <a-col :md="8" :sm="24">
-                                <a-form-item label="产品名称" fieldDecoratorId="name">
+                        <a-row>
+                            <a-col :span="6">
+                                <a-form-item label="客户名称" fieldDecoratorId="custom">
                                     <a-input placeholder="请输入"/>
                                 </a-form-item>
                             </a-col>
-                            <a-col :md="8" :sm="24">
-                                <a-form-item label="状态" fieldDecoratorId="status">
-                                    <a-select placeholder="请选择" style="width: 100%;">
-                                        <a-select-option value="">全部</a-select-option>
-                                        <a-select-option value="P">生产中</a-select-option>
-                                        <a-select-option value="N">已停产</a-select-option>
-                                    </a-select>
-                                </a-form-item>
-                            </a-col>
-                            <a-col :md="8" :sm="24">
+                            <a-col :span="6">
                                 <span class="submitButtons">
                                     <a-button type="primary" htmlType="submit">
                                         查询
-                                    </a-button>
-                                    <a-button style="margin-left: 8px;" @click="handleFormReset">
-                                        重置
                                     </a-button>
                                 </span>
                             </a-col>
@@ -33,8 +21,8 @@
                     </a-form>
                 </div>
                 <div class="tableListOperator">
-                    <a-button icon="plus" type="primary" @click="handleModalVisible(true)">
-                        新建
+                    <a-button icon="plus" type="primary" @click="addOutbound()">
+                        新增出货单
                     </a-button>
                     <span v-if="selectedRows.length > 0">
                         <a-button>批量操作</a-button>
@@ -63,34 +51,24 @@
                     rowKey="id"
                 >
                     <span slot="action" slot-scope="text, record">
-                      <a-button type="link" @click="showEdit(record)">修改</a-button>
-                      <a-divider type="vertical"/>
-                      <a-button type="link" @click="showDetail(record)">详情</a-button>
-                      <a-divider type="vertical"/>
-                      <a-button type="link" style="color:red" @click="showDelete(record)">删除</a-button>
+                      <a-button type="link" @click="showDetail(record.id)">详情</a-button>
                     </span>
                 </a-table>
             </div>
         </a-card>
-        <ProductForm ref="productForm" title="新建产品" :handleOk="handleAdd"></ProductForm>
-        <ProductForm ref="editForm" title="编辑产品" :handleOk="handleEdit"></ProductForm>
-        <ProductForm ref="detailForm" title="产品详情" :handleOk="handleDetail" ></ProductForm>
-
     </PageHeaderLayout>
 </template>
 
 <script>
 import PageHeaderLayout from "@/layouts/PageHeaderLayout";
-import ProductForm from "./ProductForm.vue";
 import moment from "moment";
-import {Badge, message, Modal} from "ant-design-vue";
+import {message, Modal} from "ant-design-vue";
 import qs from 'qs';
 
 export default {
-    name: "TableList",
+    name: "ReviewList",
     components: {
         PageHeaderLayout,
-        ProductForm
     },
     created() {
         this.$store.dispatch("tableList/getList", {params: {}});
@@ -102,20 +80,8 @@ export default {
         loading() {
             return this.$store.state.tableList.loading;
         },
-        loginUser() {
-            return this.$store.state.login.loginUser;
-        },
     },
     data() {
-        const statusMap = {
-            "P": "success",
-            "N": "error",
-        };
-        // "default","processing", "success", "error"];
-        const status = {
-            "P": "生产中",
-            "N": "已停产"
-        };
         return {
             tablePagination: {
                 showSizeChanger: true,
@@ -133,47 +99,24 @@ export default {
             formValues: {},
             columns: [
                 {
-                    title: "产品名称",
-                    dataIndex: "name"
+                    title: "客户名称",
+                    dataIndex: "custom"
                 },
                 {
-                    title: "产品规格",
-                    dataIndex: "specification"
-                },
-                // {
-                //   title: "服务调用次数",
-                //   dataIndex: "callNo",
-                //   sorter: true,
-                //   align: "right",
-                //   customRender: val => `${val} 万`,
-                //   // mark to display a total number
-                //   needTotal: true
-                // },
-                {
-                    title: "状态",
-                    dataIndex: "status",
-                    filters: [
-                        {
-                            text: status["P"],
-                            value: "P"
-                        },
-                        {
-                            text: status["N"],
-                            value: "N"
-                        },
-                    ],
-                    onFilter: (value, record) => record.status.toString() === value,
-                    customRender: val => {
-                        return <Badge status={statusMap[val]} text={status[val]}/>;
-                    }
-                },
-                {
-                    title: "创建时间",
-                    dataIndex: "createTime",
+                    title: "时间",
+                    dataIndex: "boundTime",
                     sorter: true,
                     customRender: val => (
                         <span>{moment(val).format("YYYY-MM-DD HH:mm:ss")}</span>
                     )
+                },
+                {
+                    title: "总价",
+                    dataIndex: "total"
+                },
+                {
+                    title: "提交人",
+                    dataIndex: "creator"
                 },
                 {
                     title: "操作",
@@ -182,11 +125,17 @@ export default {
             ]
         };
     },
+    mounted() {
+        const param ={
+            start: 0,
+            limit: this.tablePagination.pageSize,
+            status: "N"
+        };
+        this.queryList(param);
+    },
     methods: {
-        handleModalVisible(flag) {
-            if (flag) {
-                this.$refs.productForm.showForm();
-            }
+        addOutbound(){
+            this.$router.push('/bound/add-outbound');
         },
         handleSearch(e) {
             console.log("查询", e);
@@ -199,7 +148,8 @@ export default {
                     ...fieldsValue,
                     updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
                     start: 0,
-                    limit: this.tablePagination.pageSize
+                    limit: this.tablePagination.pageSize,
+                    status: "N"
                 };
                 this.formValues = values;
                 this.queryList(values);
@@ -215,6 +165,7 @@ export default {
                     updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
                     start: (e.current-1)*e.pageSize,
                     limit: e.pageSize,
+                    status: 'N'
                 };
                 this.formValues = values;
                 this.queryList(values);
@@ -222,9 +173,7 @@ export default {
 
         },
         queryList(params) {
-            console.log("this.$loginUser",this.$loginUser);
-            console.log("登录用户",this.$store.state.header.userCurrent);
-            this.$axios.get(`/apic/product/list?${qs.stringify(params)}`).then((res) => {
+            this.$axios.get(`/apic/boundDoc/list?${qs.stringify(params)}`).then((res) => {
                 if (res && res.data.success) {
                     message.success("查询成功");
                     this.reslist = res.data.list;
@@ -238,33 +187,35 @@ export default {
             // this.showPrd = record;
             this.$refs.editForm.showForm(record);
         },
-        showDetail(record) {
-            console.log("修改", record);
-            // this.showPrd = record;
-            this.$refs.detailForm.showForm(record);
+        showDetail(id) {
+            this.$router.push({path:'/bound/out-detail',query: {id:id}});
         },
-        showDelete(record){
+        review(record){
             const that = this;
             Modal.confirm({
-                title: '确定删除产品?',
-                content: '产品名称：' + record.name,
-                okText: '确定',
-                okType: 'danger',
+                title: '请审批订单?',
+                content: '订单客户:' + record.custom,
+                okText: '审批通过',
+                okType: 'primary',
                 cancelText: '取消',
                 onOk() {
-                    that.$axios.get(`/apic/product/delete?id=${record.id}`).then((res) => {
+                    that.$axios.get(`/apic/order/pass/${record.id}`).then((res) => {
                         if (res && res.data.success) {
-                            message.success("删除成功");
-                            that.queryList(that.formValues);
+                            message.success("审批成功");
+                            const param ={
+                                start: 0,
+                                limit: that.tablePagination.pageSize,
+                                status: "N"
+                            };
+                            that.queryList(param);
+                        }else if(res && !res.data.success){
+                            message.error(res.data.message);
                         }
-                    })
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
                 },
             });
-        },
-        handleFormReset() {
-            this.form.resetFields();
-            this.formValues = {};
-            this.$store.dispatch("tableList/getList", {params: {}});
         },
         handleSelectRows(rows) {
             this.selectedRows = rows;
@@ -352,6 +303,6 @@ export default {
 </script>
 
 <style lang="less">
-@import "./TableList.less";
+@import "./BoundList.less";
 </style>
 
