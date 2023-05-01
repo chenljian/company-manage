@@ -3,7 +3,6 @@ import App from "./App";
 import router from "./router";
 import store from "./store";
 import axios from 'axios'
-import { message} from "ant-design-vue";
 
 
 Vue.prototype.$axios = axios
@@ -41,6 +40,7 @@ import {
     Select,
     Popconfirm,
     Modal,
+    message,
 } from "ant-design-vue";
 
 

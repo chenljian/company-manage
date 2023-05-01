@@ -134,7 +134,7 @@
 
 <script>
 import Trend from "@/components/Trend";
-import NumberInfo from "@/components/NumberInfo";
+// import NumberInfo from "@/components/NumberInfo";
 import numeral from "numeral";
 import { getTimeDistance } from "@/utils/utils";
 import moment from "moment";
@@ -143,31 +143,31 @@ import cloneDeep from "lodash/cloneDeep";
 import {
   ChartCard,
   yuan,
-  MiniArea,
-  MiniBar,
-  MiniProgress,
+  // MiniArea,
+  // MiniBar,
+  // MiniProgress,
   Field,
   Bar,
-  Pie,
+  // Pie,
   colors,
-  TimelineChart,
-  MiniPie
+  // TimelineChart,
+  // MiniPie
 } from "@/components/Charts";
 
 export default {
   name: "Analysis",
   components: {
-    Trend,
+    // Trend,
     ChartCard,
     Field,
-    MiniArea,
-    MiniBar,
-    MiniProgress,
+    // MiniArea,
+    // MiniBar,
+    // MiniProgress,
     Bar,
-    NumberInfo,
-    Pie,
-    TimelineChart,
-    MiniPie
+    // NumberInfo,
+    // Pie,
+    // TimelineChart,
+    // MiniPie
   },
   created() {
     this.$store.dispatch("analysis/getChartData");

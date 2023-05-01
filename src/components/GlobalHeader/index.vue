@@ -61,13 +61,11 @@
 </template>
 
 <script>
-import HeaderSearch from "../HeaderSearch";
-import NoticeIcon from "../NoticeIcon";
+// import HeaderSearch from "../HeaderSearch";
+// import NoticeIcon from "../NoticeIcon";
 export default {
   name: "GlobalHeader",
   components: {
-    HeaderSearch,
-    NoticeIcon
   },
   props: {
     currentUser: {
