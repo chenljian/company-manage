@@ -49,11 +49,11 @@ const menuData = [
     {
         name: "产品",
         icon: "table",
-        path: "list",
+        path: "product",
         children: [
             {
                 name: "产品维护",
-                path: "table-list"
+                path: "product-list"
             },
             // {
             //     name: "标准列表",

@@ -89,6 +89,13 @@ export default new Router({
                     }
                 },
                 {
+                    path: "/product/product-list",
+                    component: () => import("@/routes/Product/TableList"),
+                    meta: {
+                        needLogin: true
+                    }
+                },
+                {
                     path: "/list/basic-list",
                     component: () => import("@/routes/List/BasicList")
                 },

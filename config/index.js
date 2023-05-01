@@ -19,7 +19,7 @@ module.exports = {
                 // }
             },
             "/apic/": {
-                target: "http://localhost:8090/",
+                target: "http://110.40.189.213:8080/",
                 // changeOrigin: true,
                 pathRewrite: {
                     '^/apic': '/api'

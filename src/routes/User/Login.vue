@@ -124,6 +124,7 @@ export default {
                     sessionStorage.setItem('userId', user.id);
                     sessionStorage.setItem('userName', user.name);
                     sessionStorage.setItem('companyName', user.companyName);
+                    sessionStorage.setItem('companyId', user.companyId);
                     sessionStorage.setItem('isLogin', 'true');
                   this.$router.push("/");
                 }
